@@ -42,6 +42,8 @@ function convertMs(ms) {
     return { days, hours, minutes, seconds };
   };
 
+
+
 const options = {
     enableTime: true,
     time_24hr: true,
@@ -53,7 +55,7 @@ const options = {
 
         userSelectedDate = selectedDates[0];
 
-        if (userSelectedDate < currentDate ) {
+        if (userSelectedDate <= currentDate ) {
 
             iziToast.show({
                 message: "Please choose a date in the future"
@@ -67,12 +69,12 @@ const options = {
     },
   };
 
-  flatpickr("input#datetime-picker", options);
+flatpickr("input#datetime-picker", options);
 
 
-  startBtn.addEventListener("click", () => {
+startBtn.addEventListener("click", () => {
 
-console.log("відлік почався")
+  console.log("відлік почався");
 
     startBtn.disabled = true;
 
@@ -80,69 +82,23 @@ console.log("відлік почався")
     const currentDate = new Date();
     const ms = userSelectedDate - currentDate;
     
-     // Перевірка чи час ще не вийшов
+     
     if (ms <= 0) {
         clearInterval(intervalId);
         startBtn.disabled = true;
+        console.log("відлік закінчився");
           return;
         }
     
-        const { days, hours, minutes, seconds } = convertMs(ms);
+    const { days, hours, minutes, seconds } = convertMs(ms);
 
-        daysElement.textContent = addLeadingZero(days);
-        hoursElement.textContent = addLeadingZero(hours);
-        minutesElement.textContent = addLeadingZero(minutes);
-        secondsElement.textContent = addLeadingZero(seconds);
+    daysElement.textContent = addLeadingZero(days);
+    hoursElement.textContent = addLeadingZero(hours);
+    minutesElement.textContent = addLeadingZero(minutes);
+    secondsElement.textContent = addLeadingZero(seconds);
       }, 1000);
-    
-      setTimeout(() => {
-        clearInterval(intervalId);
-        startBtn.disabled = true;
-      }, userSelectedDate - new Date());
-    });
+      
+});
     
  
    
-
-
-
-
-// startBtn.addEventListener("click", () => {
-//   // Перевірка, чи обрано дату
-//   if (!userSelectedDate) {
-//     iziToast.show({
-//       message: "Please choose a date first",
-//     });
-//     return;
-//   }
-
-
-//   const intervalId = setInterval(() => {
-//     const currentDate = new Date();
-//     const ms = userSelectedDate - currentDate;
-
-    // // Перевірка, чи час ще не вийшов
-    
-    // if (ms <= 0) {
-    //   clearInterval(intervalId);
-    //   startBtn.disabled = true;
-    //   return;
-    // }
-
-//     const { days, hours, minutes, seconds } = convertMs(ms);
-
-//     
-//     daysElement.textContent = padWithZero(days);
-//     hoursElement.textContent = padWithZero(hours);
-//     minutesElement.textContent = padWithZero(minutes);
-//     secondsElement.textContent = padWithZero(seconds);
-//   }, 1000);
-
-
-//   setTimeout(() => {
-//     clearInterval(intervalId);
-//     startBtn.disabled = true;
-//   }, userSelectedDate - new Date());
-// });
-
-
