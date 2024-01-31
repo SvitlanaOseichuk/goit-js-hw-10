@@ -10,7 +10,7 @@ form.addEventListener("submit", function (event) {
   event.preventDefault();
 
   const delayInput = document.querySelector('input[name="delay"]');
-  const stateInput = document.querySelector('input[name="state"]:checked');
+  const stateInput = form.elements.state;
 
   const delay = parseInt(delayInput.value);
 

@@ -6,17 +6,18 @@ import "flatpickr/dist/flatpickr.min.css";
 import iziToast from "izitoast";
 
 
-const startBtn = document.querySelector("button");
+const startButton = document.querySelector("button");
+const inputDate = document.querySelector("input#datetime-picker");
+
 
 const daysElement = document.querySelector("[data-days]");
 const hoursElement = document.querySelector("[data-hours]");
 const minutesElement = document.querySelector("[data-minutes]");
 const secondsElement = document.querySelector("[data-seconds]");
 
-const currentDate = new Date();
 
 let userSelectedDate; 
-
+let timerRunning = false;
 
 function addLeadingZero(value) {
     return value.toString().padStart(2, '0');
@@ -55,15 +56,16 @@ const options = {
 
         userSelectedDate = selectedDates[0];
 
+        const currentDate = new Date();
+
         if (userSelectedDate <= currentDate ) {
 
             iziToast.show({
                 message: "Please choose a date in the future"
             });
-
-            startBtn.disabled = true;// старт не була активною
+            startButton.disabled = true;// старт не була активною
         } else {
-            startBtn.disabled = false;// старт стає активною
+            startButton.disabled = false;// старт стає активною
         }
       }
     },
@@ -72,11 +74,13 @@ const options = {
 flatpickr("input#datetime-picker", options);
 
 
-startBtn.addEventListener("click", () => {
+startButton.addEventListener("click", () => {
 
-  console.log("відлік почався");
-
-    startBtn.disabled = true;
+  if (!timerRunning) { 
+    console.log("відлік почався");
+    startButton.disabled = true;
+    inputDate.disabled = true; 
+   }
 
     const intervalId = setInterval(() => {
     const currentDate = new Date();
@@ -85,7 +89,8 @@ startBtn.addEventListener("click", () => {
      
     if (ms <= 0) {
         clearInterval(intervalId);
-        startBtn.disabled = true;
+        startButton.disabled = true;
+        inputDate.disabled = false; ''
         console.log("відлік закінчився");
           return;
         }
